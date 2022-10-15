@@ -1,0 +1,39 @@
+name: Code Analysis & Tests
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"] # "self-hosted", "macos-latest", "windows-latest"
+        go-version: ["1.18.x", ""] # empty string means use go-version-file(go.mod)
+    name: Lint, Test and Build (${{ matrix.go-version }} ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+          go-version-file: "go.mod"
+          cache: true
+
+      - name: Install dependencies
+        run: go get ./...
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          args: --verbose
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build
+        run: go build ./...
