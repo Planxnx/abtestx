@@ -19,12 +19,17 @@ type Test struct {
 	runningWeight float64
 }
 
-type Client struct {
+type WeightedRandom struct {
 	tests       []*Test
 	totalWeight float64
 }
 
-func New(tests []Test) *Client {
+type Client interface {
+	Run() error
+	Pick() Test
+}
+
+func New(tests []Test) Client {
 	if len(tests) == 0 {
 		panic(errors.New("tests is empty"))
 	}
@@ -50,14 +55,14 @@ func New(tests []Test) *Client {
 		panic(errors.Errorf("invalid total weight, must be 1.0: %v", totalWeight))
 	}
 
-	return &Client{
+	return &WeightedRandom{
 		tests:       t,
 		totalWeight: totalWeight,
 	}
 }
 
 // Run using weighted random to choose test and execute the callback of the test.
-func (c *Client) Run() error {
+func (c *WeightedRandom) Run() error {
 	test := c.Pick()
 	if test.Callback != nil {
 		return test.Callback()
@@ -66,7 +71,7 @@ func (c *Client) Run() error {
 }
 
 // Pick  using weighted random to choose test returns a test.
-func (c *Client) Pick() Test {
+func (c *WeightedRandom) Pick() Test {
 	w := rand.Floats64n(c.totalWeight)
 	for _, test := range c.tests {
 		if test.runningWeight > w {
