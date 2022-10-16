@@ -13,7 +13,7 @@ func TestWeightedRandom(t *testing.T) {
 		assert := testifyassert.New(t)
 
 		counter := map[string]int{}
-		testData := []abtestx.Test{
+		testData := []abtestx.WeightedRandomTest{
 			{
 				ID:     "0",
 				Weight: 0.7,
@@ -65,13 +65,13 @@ func TestWeightedRandom(t *testing.T) {
 		})
 
 		assert.Panics(func() {
-			_ = abtestx.NewWeightedRandom([]abtestx.Test{
+			_ = abtestx.NewWeightedRandom([]abtestx.WeightedRandomTest{
 				{}, {}, {},
 			})
 		})
 
 		assert.Panics(func() {
-			_ = abtestx.NewWeightedRandom([]abtestx.Test{
+			_ = abtestx.NewWeightedRandom([]abtestx.WeightedRandomTest{
 				{ID: "0", Weight: 0.5},
 				{ID: "1", Weight: 0.5},
 				{ID: "2", Weight: 0.5},
@@ -79,7 +79,7 @@ func TestWeightedRandom(t *testing.T) {
 		})
 
 		assert.NotPanics(func() {
-			abtest := abtestx.NewWeightedRandom([]abtestx.Test{
+			abtest := abtestx.NewWeightedRandom([]abtestx.WeightedRandomTest{
 				{ID: "0", Weight: 0.6},
 				{ID: "1", Callback: func() error {
 					return errors.New("abtestx error")

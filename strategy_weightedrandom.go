@@ -12,12 +12,19 @@ const (
 	DefaultTotalWeight float64 = 1.0
 )
 
+type WeightedRandomTest struct {
+	ID            string       // Required
+	Weight        float64      // Optional
+	Callback      func() error // Optional
+	runningWeight float64
+}
+
 type WeightedRandom struct {
-	tests       []*Test
+	tests       []*WeightedRandomTest
 	totalWeight float64
 }
 
-func NewWeightedRandom(tests []Test) Client {
+func NewWeightedRandom(tests []WeightedRandomTest) Client {
 	if len(tests) == 0 {
 		panic(errors.New("tests is empty"))
 	}
@@ -51,26 +58,26 @@ func NewWeightedRandom(tests []Test) Client {
 
 // Run using weighted random to choose test and execute the callback of the test.
 func (c *WeightedRandom) Run() error {
-	test := c.Pick()
-	if test.Callback != nil {
-		return test.Callback()
+	_, callback := c.Pick()
+	if callback != nil {
+		return callback()
 	}
 	return nil
 }
 
 // Pick  using weighted random to choose test returns a test.
-func (c *WeightedRandom) Pick() Test {
+func (c *WeightedRandom) Pick() (id string, callback func() error) {
 	w := rand.Floats64n(c.totalWeight)
 	for _, test := range c.tests {
 		if test.runningWeight > w {
-			return *test
+			return test.ID, test.Callback
 		}
 	}
-	return *c.tests[len(c.tests)-1]
+	return "", nil
 }
 
-func fillWeight(totalWeight float64, tests []*Test) []*Test {
-	emptyWeightTests := make([]*Test, 0)
+func fillWeight(totalWeight float64, tests []*WeightedRandomTest) []*WeightedRandomTest {
+	emptyWeightTests := make([]*WeightedRandomTest, 0)
 	accumulatedWeight := 0.0
 
 	for _, test := range tests {
