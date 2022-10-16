@@ -41,7 +41,7 @@ func TestWeightedRandom(t *testing.T) {
 		}
 
 		assert.NotPanics(func() {
-			abtest := abtestx.New(testData)
+			abtest := abtestx.NewWeightedRandom(testData)
 			for i := 0; i < 100; i++ {
 				err := abtest.Run()
 				assert.NoError(err)
@@ -61,17 +61,17 @@ func TestWeightedRandom(t *testing.T) {
 		assert := testifyassert.New(t)
 
 		assert.Panics(func() {
-			_ = abtestx.New(nil)
+			_ = abtestx.NewWeightedRandom(nil)
 		})
 
 		assert.Panics(func() {
-			_ = abtestx.New([]abtestx.Test{
+			_ = abtestx.NewWeightedRandom([]abtestx.Test{
 				{}, {}, {},
 			})
 		})
 
 		assert.Panics(func() {
-			_ = abtestx.New([]abtestx.Test{
+			_ = abtestx.NewWeightedRandom([]abtestx.Test{
 				{ID: "0", Weight: 0.5},
 				{ID: "1", Weight: 0.5},
 				{ID: "2", Weight: 0.5},
@@ -79,7 +79,7 @@ func TestWeightedRandom(t *testing.T) {
 		})
 
 		assert.NotPanics(func() {
-			abtest := abtestx.New([]abtestx.Test{
+			abtest := abtestx.NewWeightedRandom([]abtestx.Test{
 				{ID: "0", Weight: 0.6},
 				{ID: "1", Callback: func() error {
 					return errors.New("abtestx error")
