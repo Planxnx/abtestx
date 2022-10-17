@@ -2,6 +2,7 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/Planxnx/abtestx.svg)](https://pkg.go.dev/github.com/Planxnx/abtestx)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Planxnx/abtestx)](https://goreportcard.com/report/github.com/Planxnx/abtestx)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f86ffbf33b4c49ffa06c4c79bef302b9)](https://www.codacy.com/gh/Planxnx/abtestx/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Planxnx/abtestx&utm_campaign=Badge_Grade)
 [![Code Analysis & Tests](https://github.com/Planxnx/abtestx/actions/workflows/code-analysis.yml/badge.svg)](https://github.com/Planxnx/abtestx/actions/workflows/code-analysis.yml)
 [![DeepSource](https://deepsource.io/gh/Planxnx/abtestx.svg/?label=active+issues&token=zmx0Q9rLHR-7XdizRnSknm7d)](https://deepsource.io/gh/Planxnx/abtestx/?ref=repository-badge)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Planxnx/http-wrapper/blob/main/LICENSE)
