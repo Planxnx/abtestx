@@ -1,7 +1,7 @@
 # ABTestX
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/Planxnx/abtestx.svg)](https://pkg.go.dev/github.com/Planxnx/abtestx)
-![GitHub issues](https://img.shields.io/github/issues/Planxnx/abtestx)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Planxnx/abtestx)](https://goreportcard.com/report/github.com/Planxnx/abtestx)
 [![Code Analysis & Tests](https://github.com/Planxnx/abtestx/actions/workflows/code-analysis.yml/badge.svg)](https://github.com/Planxnx/abtestx/actions/workflows/code-analysis.yml)
 [![DeepSource](https://deepsource.io/gh/Planxnx/abtestx.svg/?label=active+issues&token=zmx0Q9rLHR-7XdizRnSknm7d)](https://deepsource.io/gh/Planxnx/abtestx/?ref=repository-badge)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Planxnx/http-wrapper/blob/main/LICENSE)
