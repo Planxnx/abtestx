@@ -51,7 +51,7 @@ func (c *RoundRobin) Run() error {
 
 // Pick  using round-robin to choose test returns a test.
 func (c *RoundRobin) Pick() (id string, callback func() error) {
-	if test := c.tests[atomic.AddUint64(&c.ptr, 1)%uint64(len(c.tests))]; test != nil {
+	if test := c.tests[(atomic.AddUint64(&c.ptr, 1)-1)%uint64(len(c.tests))]; test != nil {
 		return test.ID, test.Callback
 	}
 	return "", nil
