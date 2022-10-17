@@ -7,11 +7,13 @@ import (
 	"github.com/samber/lo"
 )
 
+// RoundRobinTest is a test data for round-robin strategy.
 type RoundRobinTest struct {
 	ID       string       // Required
 	Callback func() error // Optional
 }
 
+// RoundRobin is a ab-test with round-robin strategy.
 type RoundRobin struct {
 	tests []*RoundRobinTest
 	ptr   uint64
