@@ -9,9 +9,11 @@ import (
 )
 
 const (
+	// default total weight.
 	DefaultTotalWeight float64 = 1.0
 )
 
+// WeightedRandomTest is a test data for weighted random strategy.
 type WeightedRandomTest struct {
 	ID            string       // Required
 	Weight        float64      // Optional
@@ -19,6 +21,7 @@ type WeightedRandomTest struct {
 	runningWeight float64
 }
 
+// WeightedRandom is a ab-test with weighted random strategy.
 type WeightedRandom struct {
 	tests       []*WeightedRandomTest
 	totalWeight float64
@@ -77,6 +80,7 @@ func (c *WeightedRandom) Pick() (id string, callback func() error) {
 	return "", nil
 }
 
+// fillWeight fills the weight of the test.
 func fillWeight(totalWeight float64, tests []*WeightedRandomTest) []*WeightedRandomTest {
 	emptyWeightTests := make([]*WeightedRandomTest, 0)
 	accumulatedWeight := 0.0
