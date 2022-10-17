@@ -24,6 +24,7 @@ type WeightedRandom struct {
 	totalWeight float64
 }
 
+// NewWeightedRandom creates a new ab-test with weighted random strategy instance.
 func NewWeightedRandom(tests []WeightedRandomTest) Client {
 	if len(tests) == 0 {
 		panic(errors.New("tests is empty"))
