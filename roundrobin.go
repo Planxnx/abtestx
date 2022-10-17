@@ -14,7 +14,7 @@ type RoundRobinTest struct {
 
 type RoundRobin struct {
 	tests []*RoundRobinTest
-	ptr   atomic.Uint64
+	ptr   uint64
 }
 
 // NewRoundRobin creates a new ab-test with round-robin strategy instance.
@@ -34,6 +34,7 @@ func NewRoundRobin(tests []RoundRobinTest) Client {
 
 	return &RoundRobin{
 		tests: t,
+		ptr:   0,
 	}
 }
 
@@ -48,7 +49,7 @@ func (c *RoundRobin) Run() error {
 
 // Pick  using round-robin to choose test returns a test.
 func (c *RoundRobin) Pick() (id string, callback func() error) {
-	if test := c.tests[(c.ptr.Add(1)-1)%uint64(len(c.tests))]; test != nil {
+	if test := c.tests[atomic.AddUint64(&c.ptr, 1)%uint64(len(c.tests))]; test != nil {
 		return test.ID, test.Callback
 	}
 	return "", nil
