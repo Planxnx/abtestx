@@ -2,6 +2,8 @@ version = 1
 
 [[analyzers]]
 name = "go"
+enabled = true
+
   [analyzers.meta]
   import_root = "github.com/Planxnx/abtestx"
   dependencies_vendored = true
@@ -9,4 +11,3 @@ name = "go"
 [[analyzers]]
 name = "test-coverage"
 enabled = true
-
