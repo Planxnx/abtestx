@@ -6,15 +6,30 @@ on:
       - main
 
 jobs:
-  build:
+  analysis:
     strategy:
       matrix:
         os: ["ubuntu-latest"] # "self-hosted", "macos-latest", "windows-latest"
         go-version: ["1.18.x", ""] # empty string means use go-version-file(go.mod)
     name: Lint, Test and Build (${{ matrix.go-version }} ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    env:
+      pr_info: |
+        💡 `${{ github.event.pull_request.title }}` (#${{ github.event.pull_request.number }})
+        🤔 Created by @${{ github.event.pull_request.user.login }}
+        🔨 Merging commit ${{ github.sha }} on branch [${{ github.head_ref }}](${{ github.event.pull_request.head.repo.html_url }}/tree/${{ github.head_ref }})
+        📝 Action Status [#${{ github.run_number }}](${{ github.event.pull_request.html_url }}/checks)
     steps:
       - uses: actions/checkout@v3
+
+      - name: Update Pull Request Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: code-analysis
+          message: |
+            ## 🔍 Running Code Analysis & Testing for 
+            ${{ env.pr_info }}
+            _Please wait for the result before merging this pull request._
 
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -54,3 +69,24 @@ jobs:
             ./bin/deepsource report --analyzer test-coverage --key go --value-file ./cover.out
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+
+      - name: Update Pull Request Comment for Success
+        if: ${{ success() }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: code-analysis
+          recreate: true
+          message: |
+            ## ✅ Successfully completed Code Analysis & Testing
+            ${{ env.pr_info }}
+            _Merge this pull request if you think it's ready._
+
+      - name: Update Pull Request Comment for Failure
+        if: ${{ failure() }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: code-analysis
+          message: |
+            ## ❌ Failed to complete Code Analysis & Testing
+            ${{ env.pr_info }}
+            _Please fix the errors before merging this pull request._
