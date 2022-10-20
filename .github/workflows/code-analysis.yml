@@ -6,6 +6,16 @@ on:
       - main
 
 jobs:
+  security:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"] # "self-hosted", "macos-latest", "windows-latest"
+    name: Scan for security issues
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Scan leak secrets
+        uses: gitleaks/gitleaks-action@v2
   analysis:
     strategy:
       matrix:
