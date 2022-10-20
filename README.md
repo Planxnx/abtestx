@@ -14,6 +14,7 @@ abtestx is a tool to help you run A/B tests for your golang applications with mi
 ## Requirements
 
 - go 1.18 or higher
+- [golangci-lint](https://github.com/golangci/golangci-lint)
 
 ## Installation
 
