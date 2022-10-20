@@ -33,7 +33,7 @@ jobs:
         💡 `${{ github.event.pull_request.title }}` (#${{ github.event.pull_request.number }})
         🔨 Merging commit ${{ github.sha }} on branch [${{ github.head_ref }}](${{ github.event.pull_request.head.repo.html_url }}/tree/${{ github.head_ref }})
         📝 Action Status [#${{ github.run_number }}](${{ github.event.pull_request.html_url }}/checks)
-        🤔 Requested by [${{ github.actor }}](${{ github.event.pull_request.user.html_url }}), @${{ github.event.pull_request.user.login }}
+        🤔 Requested by [${{ github.actor }}](${{ github.event.pull_request.user.html_url }})
     steps:
       - uses: actions/checkout@v3
         with:
