@@ -14,6 +14,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Scan leak secrets
         uses: gitleaks/gitleaks-action@v2
         env:
@@ -28,11 +31,13 @@ jobs:
     env:
       pr_info: |
         💡 `${{ github.event.pull_request.title }}` (#${{ github.event.pull_request.number }})
-        🤔 Created by @${{ github.event.pull_request.user.login }}
         🔨 Merging commit ${{ github.sha }} on branch [${{ github.head_ref }}](${{ github.event.pull_request.head.repo.html_url }}/tree/${{ github.head_ref }})
         📝 Action Status [#${{ github.run_number }}](${{ github.event.pull_request.html_url }}/checks)
+        🤔 Requested by [${{ github.actor }}](${{ github.event.pull_request.user.html_url }}), @${{ github.event.pull_request.user.login }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Update Pull Request Comment
         uses: marocchino/sticky-pull-request-comment@v2
